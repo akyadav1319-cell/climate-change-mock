@@ -1,4 +1,4 @@
-let chart;
+let chart = null;   // ✅ GLOBAL variable (THIS fixes the error)
 
 document.addEventListener("DOMContentLoaded", () => {
   const evSlider = document.getElementById("ev");
@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const evVal = document.getElementById("evVal");
   const renewVal = document.getElementById("renewVal");
 
-  // show values live
   evVal.innerText = evSlider.value;
   renewVal.innerText = renewSlider.value;
 
@@ -37,13 +36,19 @@ function runSimulation() {
       document.getElementById("pollution").innerText = data.pollution;
       document.getElementById("report").innerText = data.report;
 
-      const ctx = document.getElementById("emissionChart").getContext("2d");
+      const ctx = document
+        .getElementById("emissionChart")
+        .getContext("2d");
 
       const years = ["Now", "5 Years", "10 Years"];
       const emissions = [100, data.co2 + 10, data.co2];
 
-      if (chart) chart.destroy();
+      // ✅ Safe destroy
+      if (chart !== null) {
+        chart.destroy();
+      }
 
+      // ✅ Recreate chart
       chart = new Chart(ctx, {
         type: "line",
         data: {
@@ -67,6 +72,7 @@ function runSimulation() {
     })
     .catch(err => console.error(err));
 }
+
 
 
 
