@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Climate Policy Simulator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Simulator</h2>
+    <ul>
+      <li>Dashboard</li>
+      <li>Policies</li>
+      <li>Comparison</li>
+      <li>About</li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+
+    <!-- Header -->
+    <div class="header">
+      <h1>Climate Policy Simulator</h1>
+      <p>Test climate policies and visualize impact</p>
+    </div>
+
+    <!-- Metrics -->
+    <div class="cards">
+      <div class="card">
+        <h3>CO₂ (10 yrs)</h3>
+        <p id="co2">--</p>
+      </div>
+      <div class="card">
+        <h3>Pollution Index</h3>
+        <p id="pollution">--</p>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- Inputs -->
+      <div class="inputs">
+        <h3>Policy Parameters</h3>
+
+        <label>EV Adoption (%)</label>
+        <input type="range" id="ev" min="0" max="100">
+
+        <label>Renewable Energy (%)</label>
+        <input type="range" id="renew" min="0" max="100">
+
+        <label>Industry Controls (%)</label>
+        <input type="range" id="industry" min="0" max="100">
+
+        <label>Tree Plantation Rate</label>
+        <input type="range" id="trees" min="0" max="100">
+
+        <button onclick="runSimulation()">Run Simulation</button>
+      </div>
+
+      <!-- Results -->
+      <div class="results">
+        <h3>Results</h3>
+        <p id="report">Run simulation to see results.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
