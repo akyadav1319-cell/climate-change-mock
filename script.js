@@ -1,31 +1,49 @@
+let chart;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const evSlider = document.getElementById("ev");
+  const renewSlider = document.getElementById("renew");
+
+  const evVal = document.getElementById("evVal");
+  const renewVal = document.getElementById("renewVal");
+
+  // show values live
+  evVal.innerText = evSlider.value;
+  renewVal.innerText = renewSlider.value;
+
+  evSlider.oninput = () => {
+    evVal.innerText = evSlider.value;
+  };
+
+  renewSlider.oninput = () => {
+    renewVal.innerText = renewSlider.value;
+  };
+});
+
 function runSimulation() {
   const ev = Number(document.getElementById("ev").value);
   const renew = Number(document.getElementById("renew").value);
-  const industry = Number(document.getElementById("industry").value);
-  const trees = Number(document.getElementById("trees").value);
 
   fetch("https://climate-change-backend-22cq.onrender.com/simulate", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({ ev, renew })
   })
     .then(res => res.json())
     .then(data => {
-      let adjustedCO2 = data.co2;
-      adjustedCO2 -= industry * 0.2;
-      adjustedCO2 -= trees * 0.1;
-      adjustedCO2 = Math.max(0, Math.round(adjustedCO2));
-
-      document.getElementById("co2").innerText = adjustedCO2;
+      document.getElementById("co2").innerText = data.co2;
       document.getElementById("pollution").innerText = data.pollution;
       document.getElementById("report").innerText = data.report;
 
+      const ctx = document.getElementById("emissionChart").getContext("2d");
+
       const years = ["Now", "5 Years", "10 Years"];
-      const emissions = [100, adjustedCO2 + 10, adjustedCO2];
+      const emissions = [100, data.co2 + 10, data.co2];
 
       if (chart) chart.destroy();
 
-      const ctx = document.getElementById("emissionChart").getContext("2d");
       chart = new Chart(ctx, {
         type: "line",
         data: {
@@ -34,13 +52,22 @@ function runSimulation() {
             label: "CO₂ Emissions",
             data: emissions,
             borderColor: "#2563eb",
-            tension: 0.3
+            backgroundColor: "rgba(37,99,235,0.2)",
+            tension: 0.4,
+            fill: true
           }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: true }
+          }
         }
       });
     })
     .catch(err => console.error(err));
 }
+
 
 
 
