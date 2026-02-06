@@ -14,7 +14,7 @@ function runSimulation() {
   const ev = Number(document.getElementById("ev").value);
   const renew = Number(document.getElementById("renew").value);
 
-  fetch("https://climate-change-backend-22cq.onrender.com", {
+  fetch("https://climate-change-backend-22cq.onrender.com/simulate", {
 
     method: "POST",
     headers: {
@@ -35,5 +35,6 @@ function runSimulation() {
     console.error("Error:", error);
   });
 }
+
 
 
